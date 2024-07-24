@@ -1,4 +1,5 @@
 export function setLocalStorageDate(arr = [], key = 'user') {
+    localStorage.setItem(key, JSON.stringify([]))
     localStorage.setItem(key, JSON.stringify(arr))
 }
 

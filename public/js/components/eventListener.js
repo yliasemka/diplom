@@ -1,6 +1,6 @@
-import { getUsers, postBoard, postUsers } from "../modules/requests.js";
+import { getUsers, postBoard, postUsers, getUserByEmail} from "../modules/requests.js";
 import { isModalOpen } from "./modalWindow.js";
-import { createModalAddBoard, closeModal, SingInUser, SingUpUser } from "./modalWindow.js";
+import { createModalAddBoard, closeModal, SingInUser, SingUpUser, noneUser, checkEmail} from "./modalWindow.js";
 import { createApp } from "./app.js";
 import { createBoard } from "./board.js";
 import { setLocalStorageDate } from "../modules/localStorage.js";
@@ -21,7 +21,7 @@ export function initializeEventHandlers(){
                         event.preventDefault();
                         console.log("Form submitted")
                         await postBoard(form)
-                        createApp()
+                        await createApp()
                         closeModal('.add-window')
                     });
                 } else {
@@ -49,15 +49,44 @@ export function initializeEventHandlers(){
                 form.addEventListener('submit', async (event) => {
                     event.preventDefault();
                     console.log("Form submitted")
-                    await postUsers(form)
-                    setLocalStorageDate(await getUsers('http://localhost:3000/users'), 'user')
-                    closeModal('.singUp-window')
+                    const checkEmaill = await postUsers(form)
+                    if(checkEmaill === null){
+                        checkEmail()
+                        form.reset()
+                        setTimeout(() => {
+                            closeModal('.checkEmail-window')
+                        }, 3000)
+                    } else{
+                        closeModal('.singUp-window')
+                        createApp()
+                    }
                 });
             } else {
                 console.error("Form with class .add-formm not found");
             }
         }
-        
-       
+        if(target.closest('.singIn-enter')){
+            const form = document.querySelector('.singIn-form');
+            if (form) {
+                console.log("form exixst")
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    console.log("Form submitted")
+                    const userCheck = await getUserByEmail(form)
+                    if(userCheck === null){
+                        noneUser()
+                        form.reset()
+                        setTimeout(() => {
+                            closeModal('.noneUser-window')
+                        }, 3000)
+                    } else{
+                        closeModal('.singIn-window')
+                        createApp()
+                    }
+                });
+            } else {
+                console.error("Form with class .add-formm not found");
+            }
+        }
     }) 
 }

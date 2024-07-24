@@ -112,3 +112,57 @@
     background-color: #a096d898;
     border-radius: 10px;
 }
+
+.noneUser,
+.checkEmail {
+    &-window {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2000;
+        width: 100%;
+        height: 100%;
+
+        &-button {
+            margin: 0 auto;
+            margin-top: 20px;
+            background-color: #fcfaf8;
+            border-radius: 10px;
+            width: 200px
+        }
+    }
+
+    &-dialog {
+        max-width: 500px;
+        margin: 250px auto;
+        box-shadow: 0 15px 50px 0 rgba(0, 0, 0, .35);
+        border-radius: 10px;
+        background-color: #fcfaf8;
+    }
+
+    &-content {
+        position: relative;
+        width: 100%;
+        padding: 40px;
+        border: none;
+    }
+
+    &-title {
+        text-align: center;
+
+        &-header {
+            margin-bottom: 10px;
+            font-size: 35px;
+        }
+
+        &-subHeader {
+            margin-bottom: 25px;
+            font-size: 20px;
+        }
+
+        &-button {
+            margin-top: 20px;
+        }
+    }
+
+}

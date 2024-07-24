@@ -3,6 +3,7 @@ let isModalOpen = false
 
 export function closeModal(modalClass){
     const modal = document.querySelector(modalClass);
+    console.log(modal)
     isModalOpen = false
     modal.remove(); 
 }
@@ -94,6 +95,40 @@ export function SingUpUser(){
     document.body.append(addModal);
     let inputTask = document.querySelector('.singUp-email')
     inputTask.focus()
+    isModalOpen = true
+    return addModal
+}
+
+export function noneUser(){
+    const addModal = document.createElement('div')
+    addModal.classList.add('noneUser-window')
+    addModal.innerHTML = `
+        <div class="noneUser-dialog">
+            <div class="noneUser-content">
+                <div class="noneUser-title">
+                    <h2 class="noneUser-title-header">Пользователя с таким email не сущетсвует</h2>
+                    <p class="noneUser-title-subHeader">Попробуйте ещё раз!</p>
+                </div>
+            </div>
+        </div>`
+    document.body.append(addModal);
+    isModalOpen = true
+    return addModal
+}
+
+export function checkEmail(){
+    const addModal = document.createElement('div')
+    addModal.classList.add('checkEmail-window')
+    addModal.innerHTML = `
+        <div class="checkEmail-dialog">
+            <div class="checkEmail-content">
+                <div class="checkEmail-title">
+                    <h2 class="checkEmail-title-header">Упс! Этот Email уже занят</h2>
+                    <p class="checkEmail-title-subHeader">Попробуйте ещё раз!</p>
+                </div>
+            </div>
+        </div>`
+    document.body.append(addModal);
     isModalOpen = true
     return addModal
 }

@@ -80,7 +80,20 @@
     },
     {
       "id": "3",
-      "name": "board3",
+      "name": "board4",
+      "userId": "1",
+      "columns": []
+    },
+    {
+      "id": "4",
+      "name": "board6",
+      "userId": "1",
+      "columns": []
+    },
+    {
+      "id": "5",
+      "name": "sdfsdfsd",
+      "userId": "1",
       "columns": []
     }
   ],
@@ -88,8 +101,26 @@
     {
       "id": "1",
       "name": "test",
+      "email": "yliasemka22@mail.ru",
+      "password": "111111"
+    },
+    {
+      "id": "2",
+      "name": "test",
       "email": "yliasemchenko@mail.ru",
       "password": "1111"
+    },
+    {
+      "id": "3",
+      "name": "board6",
+      "email": "fedoriinchiik@gmail.com",
+      "password": "456789"
+    },
+    {
+      "id": "4",
+      "name": "d.fmb;dlf",
+      "email": "test@gmail.com",
+      "password": "123456"
     }
   ]
 }
