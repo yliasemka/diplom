@@ -1,0 +1,11 @@
+.btnAdd,
+.btnBoard {
+    display: flex;
+    justify-content: start;
+    font-size: 20px;
+    color: #fff;
+}
+
+.btnAdd {
+    justify-content: space-between;
+}

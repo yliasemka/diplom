@@ -1,0 +1,95 @@
+{
+  "boards": [
+    {
+      "id": "1",
+      "name": "Board 1",
+      "userId": "1",
+      "columns": [
+        {
+          "id": 1,
+          "name": "To Do",
+          "tasks": [
+            {
+              "id": 1,
+              "title": "Task 1",
+              "description": "Description 1"
+            },
+            {
+              "id": 2,
+              "title": "Task 2",
+              "description": "Description 2"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "In Progress",
+          "tasks": [
+            {
+              "id": 1,
+              "title": "Task 1",
+              "description": "Description 1"
+            },
+            {
+              "id": 2,
+              "title": "Task 2",
+              "description": "Description 2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Board 2",
+      "userId": "2",
+      "columns": [
+        {
+          "id": 1,
+          "name": "To Do",
+          "tasks": [
+            {
+              "id": 1,
+              "title": "Task 1",
+              "description": "Description 1"
+            },
+            {
+              "id": 2,
+              "title": "Task 2",
+              "description": "Description 2"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "In Progress",
+          "tasks": [
+            {
+              "id": 1,
+              "title": "Task 1",
+              "description": "Description 1"
+            },
+            {
+              "id": 2,
+              "title": "Task 2",
+              "description": "Description 2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "board3",
+      "columns": []
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "test",
+      "email": "yliasemchenko@mail.ru",
+      "password": "1111"
+    }
+  ]
+}

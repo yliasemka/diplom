@@ -1,0 +1,20 @@
+{
+  "name": "diplom",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server-json": "json-server --watch db.json --port 3000",
+    "server": "concurrently \"npm run dev\" \"npm run server-json\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "json-server": "^1.0.0-beta.1",
+    "sass": "^1.77.8",
+    "scss": "^0.2.4"
+  }
+}

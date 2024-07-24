@@ -1,0 +1,33 @@
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
+.app {
+    &-header {
+        display: flex;
+        background-color: #a096d898;
+        padding: 15px 10px;
+    }
+
+    &-wrapper {
+        display: flex;
+    }
+
+    &-sideBar {
+        display: flex;
+        flex-direction: column;
+        width: 15vw;
+        height: 100vh;
+        background-color: #a096d898;
+    }
+
+    &-main {
+        width: 85vw;
+        position: relative;
+
+        &-content {
+            width: 100%;
+        }
+    }
+}
