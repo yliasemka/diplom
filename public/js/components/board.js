@@ -1,4 +1,6 @@
-export function createBoard(id, title){
+import { createColumn } from "./column.js"
+
+export async function createBoard(id, title){
     const mainApp = document.querySelector('.app-main')
     const mainAppContent = document.querySelector('.app-main-content')
     const header = document.querySelector('.board-header')
@@ -8,5 +10,6 @@ export function createBoard(id, title){
     board.dataset.id = id
     mainAppContent.append(header)
     mainAppContent.append(board)
+    await createColumn('http://localhost:3000/boards',id)
     return mainAppContent
 } 

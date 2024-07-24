@@ -134,3 +134,15 @@ export async function getUserByEmail(form){
     }
 
 }
+
+
+export async function getColumn(url, id){
+    const answ = await fetch(`${url}`)
+
+    if (!answ.ok){
+        new Error('Failed to fetch boards')
+    } 
+    const boards = await answ.json()
+    const result = boards.find(item => +item.id === +id)
+    return result.columns
+}

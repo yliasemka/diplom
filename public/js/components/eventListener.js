@@ -30,13 +30,16 @@ export function initializeEventHandlers(){
             }
         } 
         if( target.closest('.btnBoard')){
-            console.dir('tap')
             let id = 0
             const title = target.innerText
             if(target.classList.contains('btnAdd-text')){
                 id = +target.parentElement.dataset.id
             } else {
                 id = +target.dataset.id
+            }
+            if(document.querySelector('.board')){
+                const board = document.querySelector('.board')
+                board.remove()
             }
             createBoard(id, title)
         }

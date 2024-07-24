@@ -58,7 +58,7 @@ export async function createApp(){
     createNavigation()
     const arrBoard = await getBoards('http://localhost:3000/boards')
     const appWrapper = document.createElement('div')
-    appWrapper.classList.add('add-wrapper')
+    appWrapper.classList.add('app-wrapper')
     const sideBar = createSideBarApp(arrBoard[0])
     console.log(sideBar)
     appWrapper.append(sideBar)
