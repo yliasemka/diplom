@@ -5,6 +5,7 @@ export function setLocalStorageDate(arr = [], key = 'user') {
 
 export function getLocalStorageDate(key = 'user') {
     let result = JSON.parse(localStorage.getItem(key))
+    console.log(result)
     if (result === null) {
         setLocalStorageDate([], key)
         result = []

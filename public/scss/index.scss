@@ -4,6 +4,7 @@
 @import './modalWindow.scss';
 @import './board.scss';
 @import './column.scss';
+@import './task.scss';
 
 * {
     box-sizing: border-box;
@@ -14,9 +15,14 @@
     font-family: "Raleway", sans-serif;
 }
 
+
 button {
     background: none;
     border: none;
     padding: 10px;
+    cursor: pointer;
+}
+
+i {
     cursor: pointer;
 }

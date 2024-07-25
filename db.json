@@ -18,6 +18,14 @@
               "id": 2,
               "title": "Task 2",
               "description": "Description 2"
+            },
+            {
+              "title": "Task3",
+              "id": 3
+            },
+            {
+              "title": "Task4",
+              "id": 4
             }
           ]
         },
@@ -34,6 +42,10 @@
               "id": 2,
               "title": "Task 2",
               "description": "Description 2"
+            },
+            {
+              "title": "Task3",
+              "id": 3
             }
           ]
         },
@@ -52,6 +64,29 @@
               "description": "Description 2"
             }
           ]
+        },
+        {
+          "name": "Column3",
+          "tasks": [
+            {
+              "title": "Task1",
+              "id": 1
+            },
+            {
+              "title": "Task2",
+              "id": 2
+            },
+            {
+              "title": "Task3",
+              "id": 3
+            }
+          ],
+          "id": 4
+        },
+        {
+          "name": "sdfsdfsd",
+          "tasks": [],
+          "id": 5
         }
       ]
     },
@@ -98,7 +133,13 @@
       "id": "3",
       "name": "board4",
       "userId": "1",
-      "columns": []
+      "columns": [
+        {
+          "name": "board3",
+          "tasks": [],
+          "id": 1
+        }
+      ]
     },
     {
       "id": "4",
@@ -136,6 +177,12 @@
       "id": "4",
       "name": "d.fmb;dlf",
       "email": "test@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "5",
+      "name": "semka",
+      "email": "semka@gmail.com",
       "password": "123456"
     }
   ]

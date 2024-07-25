@@ -1,0 +1,30 @@
+.column {
+    position: relative;
+    width: 300px;
+    height: auto;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0.5px solid #cac3c3;
+    background-color: #fcfaf8;
+    border-radius: 10px;
+    margin: 0 7px;
+    padding: 10px;
+
+    &-btn {
+        display: flex;
+        cursor: pointer;
+    }
+
+    &-header {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    &-action {
+        cursor: pointer;
+    }
+}

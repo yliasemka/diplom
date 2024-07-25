@@ -1,6 +1,4 @@
 import { getLocalStorageDate, setLocalStorageDate } from "./localStorage.js"
-import { noneUser, SingInUser, closeModal } from "../components/modalWindow.js"
-
 
 
 export async function getBoards(url){
@@ -78,10 +76,10 @@ export async function postUsers(form) {
 
     const checkEmail = await getUserByEmail(form)
     console.log(checkEmail)
-    if (checkEmail.ok){
+    if (checkEmail && checkEmail.ok && checkEmail !== null){
         setLocalStorageDate([], 'user')
         return null
-    }
+    } 
     object.id = `${await getUsers('http://localhost:3000/users').then(boards => boards.length + 1)}`;
 
     console.log(object);
@@ -140,9 +138,77 @@ export async function getColumn(url, id){
     const answ = await fetch(`${url}`)
 
     if (!answ.ok){
-        new Error('Failed to fetch boards')
+       throw new Error('Failed to fetch boards')
     } 
     const boards = await answ.json()
     const result = boards.find(item => +item.id === +id)
     return result.columns
+}
+
+export async function postColumn(form, id){
+    const response = await fetch(`http://localhost:3000/boards?id=${encodeURIComponent(id)}`)
+    const boardResult = await response.json()
+    const board = boardResult[0]
+    
+    if (!board) {
+        throw new Error('Board not found')
+    }
+    const formData = new FormData(form)
+    const newColumn = {}
+    formData.forEach((value, key) => {
+        newColumn[key] = value
+    });
+    newColumn.tasks = []
+    newColumn.id = board.columns.length + 1
+    board.columns.push(newColumn)
+
+
+    const url = `http://localhost:3000/boards/${id}`
+    const updateResponse = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(board)
+    })
+
+    if (!updateResponse.ok) {
+        throw new Error('Failed to update board')
+    }
+
+    return updateResponse.json()
+}
+
+export async function postTask(form, id, columnId){
+    const response = await fetch(`http://localhost:3000/boards?id=${encodeURIComponent(id)}`)
+    const boardResult = await response.json()
+    const board = boardResult[0]
+    
+    if (!board) {
+        throw new Error('Board not found')
+    }
+    const formData = new FormData(form)
+    const newTask = {}
+    formData.forEach((value, key) => {
+        newTask[key] = value
+    });
+    console.log(board.columns[columnId - 1].tasks)
+    newTask.id = board.columns[columnId - 1].tasks.length + 1
+    board.columns[columnId - 1].tasks.push(newTask)
+
+
+    const url = `http://localhost:3000/boards/${id}`
+    const updateResponse = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(board)
+    })
+
+    if (!updateResponse.ok) {
+        throw new Error('Failed to update board')
+    }
+
+    return updateResponse.json()
 }

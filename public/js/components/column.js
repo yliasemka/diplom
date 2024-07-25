@@ -1,21 +1,35 @@
 import { getColumn } from "../modules/requests.js"
 import { createBtnAddColumnTask } from "./btn.js"
+import { createTasks } from "./task.js"
 
 export async function createColumn (url, id){
     const columnArr = await getColumn(url,id)
-    const board = document.querySelector('.board')
+    const board = document.querySelector('.board-content')
     columnArr.forEach(item => {
+        const taskArr = item.tasks
+        console.log(taskArr)
         const column = document.createElement('div')
         const btn = createBtnAddColumnTask('Добавить задачу')
+        btn.classList.add('task-btn')
+        btn.dataset.id = item.id
         column.classList.add('column')
         column.dataset.id = item.id
-        const columnHeader = document.createElement('h2')
+        const columnHeader = document.createElement('div')
         columnHeader.classList.add('column-header')
-        columnHeader.innerText = `${item.name}`
+        const columnHeaderText = document.createElement('h2')
+        columnHeaderText.classList.add('column-header-text')
+        columnHeaderText.innerText = `${item.name}`
+        const actionColumnHeader = document.createElement('span')
+        actionColumnHeader.classList.add('column-action')
+        actionColumnHeader.innerHTML = '<i class="fa-solid fa-ellipsis"></i>'
+        columnHeader.append(columnHeaderText)
+        columnHeader.append(actionColumnHeader)
         column.append(columnHeader)
         column.append(btn)
-        board.append(column)
+        board.append(createTasks(taskArr, column))
     })
-    board.append(createBtnAddColumnTask('Добавить колонку'))
+    const columnBtn = createBtnAddColumnTask('Добавить колонку')
+    columnBtn.classList.add('column-btn')
+    board.append(columnBtn)
     return board
 }

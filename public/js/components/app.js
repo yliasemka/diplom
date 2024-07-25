@@ -46,7 +46,7 @@ export function createMainApp(){
     appMain.classList.add('app-main')
     const appMainContent = document.createElement('div')
     appMainContent.classList.add('app-main-content')
-    const header = document.createElement('h')
+    const header = document.createElement('h2')
     header.classList.add('board-header')
     appMain.append(header)
     appMain.append(appMainContent)

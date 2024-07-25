@@ -40,6 +40,11 @@ export function SingInUser(){
     addModal.innerHTML = `
         <div class="singIn-dialog">
             <div class="singIn-content">
+                <div class="singIn-header">
+                    <span class="singIn-header-icon">
+                        <i class="fa-solid fa-xmark  singInn" ></i>
+                    </span>
+                </div>
                 <div class="singIn-title">
                     <h2 class="singIn-title-header">Добро пожаловать в TRELLO!</h2>
                     <p class="singIn-title-subHeader">Чтобы начать работу нужно войти или зарегистрироваться</p>
@@ -73,6 +78,14 @@ export function SingUpUser(){
     addModal.innerHTML = `
         <div class="singUp-dialog">
             <div class="singUp-content">
+                <div class="singUp-header">
+                    <span class="singUp-header-icon">
+                        <i class="fa-solid fa-arrow-left singUpp"></i>
+                    </span>
+                    <span class="singUp-header-icon">
+                        <i class="fa-solid fa-xmark singUpp"></i>
+                    </span>
+                </div>
                 <div class="singUp-title">
                     <h2 class="singUp-title-header">Добро пожаловать в TRELLO!</h2>
                 </div>
@@ -131,6 +144,104 @@ export function checkEmail(){
     document.body.append(addModal);
     isModalOpen = true
     return addModal
+}
+
+export function addColumn(){
+    const btnColumn = document.querySelector('.board')
+    const addModal = document.createElement('div')
+    addModal.classList.add('addColumn-window')
+    addModal.innerHTML = `
+        <div class="addColumn-dialog">
+            <div class="addColumn-content">
+                <form class="addColumn-form">
+                    <div class="addColumn-input">
+                        <input type="text" class="addColumn-name" placeholder="Введите заголовок" name="name">
+                    </div>
+                    <div class="addColumn-footer">
+                        <div class="addColumn-window-button">
+                        <input value="Добавить колонку" type="submit" class="addColumn-enter">
+                        </div>
+                        <span class="addColumn-header-icon">
+                            <i class="fa-solid fa-xmark addColumn-icon"></i>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>`
+    btnColumn.append(addModal);
+    isModalOpen = true
+    return addModal
+}
+
+export function addTask(id){
+    const column = document.querySelectorAll('.column')
+    column.forEach(item => {
+        if(+item.dataset.id === +id){
+            const addModal = document.createElement('div')
+            addModal.classList.add('addTask-window')
+            addModal.innerHTML = `
+                <div class="addTask-dialog">
+                    <div class="addTask-content">
+                        <form class="addTask-form">
+                            <div class="addTask-input">
+                                <input type="text" class="addTask-name" placeholder="Введите заголовок" name="title">
+                            </div>
+                            <div class="addTask-footer">
+                                <div class="addTask-window-button">
+                                <input value="Добавить задачу" type="submit" class="addTask-enter">
+                                </div>
+                                <span class="addTask-header-icon">
+                                    <i class="fa-solid fa-xmark addTask-icon"></i>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>`
+            item.append(addModal);
+            isModalOpen = true
+            return addModal
+        }
+    })
+}
+
+export function actionColumn(id){
+    const column = document.querySelectorAll('.column')
+    column.forEach(item => {
+        if(+item.dataset.id === +id){
+            const addModal = document.createElement('div')
+            addModal.classList.add('actionColumn-window')
+            addModal.dataset.id = id
+            addModal.innerHTML = `
+                <div class="actionColumn-dialog">
+                    <div class="actionColumn-content">
+                        <div class="actionColumn-header">
+                            <p class="actionColumn-header-text">Действия с колонкой</p>
+                             <span class="actionColumn-header-icon">
+                                <i class="fa-solid fa-xmark actionColumn-icon"></i>
+                            </span>
+                        </div>
+                        <div class="actionColumn-changeColorr">
+                            <p class="actionColumn-changeColorr-text">Изменить цвет колонки</p>
+                            <button type="button" aria-disabled="false" class="button-color" id="crimson"></button>
+                            <button type="button" aria-disabled="false" class="button-color" id="deepskyblue"></button>
+                            <button type="button" aria-disabled="false" class="button-color" id="pink"></button>
+                            <button type="button" aria-disabled="false" class="button-color" id="gold"></button>
+                            <button type="button" aria-disabled="false" class="button-color" id="orange"></button>
+                            <button type="button" aria-disabled="false" class="button-color" id="springgreen"></button>
+                            <button type="button" aria-disabled="false" class="button-color" id="none"></button>
+                        </div>
+                        <div class="actionColumn-footer">
+                            <button aria-label="Удалить колонку" type="submit" aria-disabled="false" class="actionColumn-delete">
+                                <span class="actionColumn-delete-text">Удалить колонку</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>`
+            item.after(addModal);
+            isModalOpen = true
+            return addModal
+        }
+    })
 }
 
 export { isModalOpen }
