@@ -3,7 +3,6 @@ import { getLocalStorageDate, setLocalStorageDate } from "./localStorage.js"
 
 export async function getBoards(url){
     const test = getLocalStorageDate()
-    console.log(test)
     const answ = await fetch(`${url}`)
 
     if (!answ.ok){
@@ -18,8 +17,6 @@ export async function getBoards(url){
             }
         })
     }
-    console.log(result)
-    console.log(boards)
     return [result, boards]
 }
 
@@ -29,7 +26,6 @@ export async function getUsers(url){
         new Error('Failed to fetch boards')
     } 
     const boards = await answ.json()
-    console.log(boards)
     return boards
 }
 
@@ -44,10 +40,7 @@ export async function postBoard(form) {
     object.id = `${await getBoards('http://localhost:3000/boards').then(boards => boards[1].length + 1)}`
 
     object.userId = getLocalStorageDate()[0].id
-    console.log(object.userId)
     object.columns = [];
-
-    console.log(object);
 
     try {
         const result = await fetch('http://localhost:3000/boards', {
@@ -60,7 +53,6 @@ export async function postBoard(form) {
         if (!result.ok) {
             throw new Error(`Failed to post board`);
         }
-        console.log(await result.json());
         return result;
     } catch (error) {
         console.error(error);
@@ -75,14 +67,12 @@ export async function postUsers(form) {
     });
 
     const checkEmail = await getUserByEmail(form)
-    console.log(checkEmail)
     if (checkEmail && checkEmail.ok && checkEmail !== null){
         setLocalStorageDate([], 'user')
         return null
     } 
     object.id = `${await getUsers('http://localhost:3000/users').then(boards => boards.length + 1)}`;
 
-    console.log(object);
 
     try {
         const result = await fetch('http://localhost:3000/users', {
@@ -95,7 +85,6 @@ export async function postUsers(form) {
         if (!result.ok) {
             throw new Error(`Failed to post board`)
         }
-        console.log(await result.json())
         const tempArr = []
         tempArr.push(object)
         setLocalStorageDate(tempArr)
@@ -112,16 +101,13 @@ export async function getUserByEmail(form){
         object[key] = value;
     });
     const emailUser = object.email
-    console.log(emailUser)
     try{
         const result = await fetch(`http://localhost:3000/users?email=${encodeURIComponent(emailUser)}`)
         if (!result.ok){
             throw new Error(`Failed to find user`)
         }
         const user = await result.json()
-        console.log(user)
         if (user.length === 0){
-            console.log("ia tut")
             return null
         }else{
             setLocalStorageDate(user)
@@ -159,7 +145,15 @@ export async function postColumn(form, id){
         newColumn[key] = value
     });
     newColumn.tasks = []
-    newColumn.id = board.columns.length + 1
+    let idArr = []
+    if (board.columns.length === 0){
+        idArr = [0]
+    } else {
+        board.columns.forEach(item => {
+            idArr.push(+item.id)
+        })
+    }
+    newColumn.id = Math.max(...idArr) + 1
     board.columns.push(newColumn)
 
 
@@ -192,9 +186,17 @@ export async function postTask(form, id, columnId){
     formData.forEach((value, key) => {
         newTask[key] = value
     });
-    console.log(board.columns[columnId - 1].tasks)
-    newTask.id = board.columns[columnId - 1].tasks.length + 1
-    board.columns[columnId - 1].tasks.push(newTask)
+    const testboard = board.columns.find(item => +item.id === +columnId)
+    let idArr = []
+    if (testboard.tasks.length === 0){
+        idArr = [0]
+    } else {
+        testboard.tasks.forEach(item => {
+            idArr.push(+item.id)
+        })
+    }
+    newTask.id = Math.max(...idArr) + 1
+    testboard.tasks.push(newTask)
 
 
     const url = `http://localhost:3000/boards/${id}`
@@ -211,4 +213,116 @@ export async function postTask(form, id, columnId){
     }
 
     return updateResponse.json()
+}
+
+export async function deleteColumn(columnId, boardId){
+    const answ = await getBoards('http://localhost:3000/boards')
+    const board = answ[0]
+    let idArr = []
+    const enterBoard = board.find(item => +item.id === +boardId)
+    enterBoard.columns.forEach(item => {
+        idArr.push(+item.id)
+    })
+    const checkId = idArr.indexOf(+columnId)
+    enterBoard.columns.splice(checkId, 1)
+    const url = `http://localhost:3000/boards/${encodeURIComponent(boardId)}`;
+    const answUpdate = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(enterBoard)
+    });
+
+    return answUpdate.json()
+}
+
+export async function changeTask(boardId, taskId, columnId, form){
+    const response = await fetch(`http://localhost:3000/boards?id=${encodeURIComponent(boardId)}`)
+    const boardResult = await response.json()
+    const board = boardResult[0]
+    const formData = new FormData(form)
+    const title = formData.get('title')
+    const selectValue = formData.get('select')
+    if(selectValue !== null){
+        const newColumn = board.columns.find(item => `${item.name}` === `${selectValue}`)
+        const newColumnId = newColumn.id
+        const lastColumn = board.columns.find(item => +item.id === +columnId)
+        const idTaskArr = [] 
+        lastColumn.tasks.forEach(item => {
+            idTaskArr.push(+item.id)
+        })
+        const checkId = idTaskArr.indexOf(+taskId)
+        lastColumn.tasks.splice(checkId, 1)
+        const idNewTaskArr = [] 
+        newColumn.tasks.forEach(item => {
+            idNewTaskArr.push(+item.id)
+        })
+        const newkId = Math.max(...idTaskArr) + 1 
+        const newTask = {
+            "title": title,
+            "id": newkId
+        }
+        newColumn.tasks.push(newTask)
+        const url = `http://localhost:3000/boards/${boardId}`
+        const updateResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(board)
+        })
+    
+        if (!updateResponse.ok) {
+            throw new Error('Failed to update board')
+        }
+    
+        return updateResponse.json()
+    } else {
+        const lastColumn = board.columns.find(item => +item.id === +columnId)
+        const lastTask = lastColumn.tasks.find(item => +item.id === +taskId)
+        lastTask.title = title
+        const url = `http://localhost:3000/boards/${boardId}`
+        const updateResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(board)
+        })
+    
+        if (!updateResponse.ok) {
+            throw new Error('Failed to update board')
+        }
+    
+        return updateResponse.json()
+    }
+   
+}
+
+export async function deleteTask(boardId, taskId, columnId){
+    const response = await fetch(`http://localhost:3000/boards?id=${encodeURIComponent(boardId)}`)
+    const boardResult = await response.json()
+    const board = boardResult[0]
+    const lastColumn = board.columns.find(item => +item.id === +columnId)
+    let idArr = []
+    lastColumn.tasks.forEach(item => {
+        idArr.push(+item.id)
+    })
+    const checkId = idArr.indexOf(+taskId)
+    lastColumn.tasks.splice(checkId, 1)
+    const url = `http://localhost:3000/boards/${boardId}`
+        const updateResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(board)
+        })
+    
+        if (!updateResponse.ok) {
+            throw new Error('Failed to update board')
+        }
+    
+        return updateResponse.json()
 }

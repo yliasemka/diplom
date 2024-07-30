@@ -1,5 +1,6 @@
 import { createColumn } from "./column.js"
 
+
 export async function createBoard(id, title){
     const mainApp = document.querySelector('.app-main')
     const mainAppContent = document.querySelector('.app-main-content')

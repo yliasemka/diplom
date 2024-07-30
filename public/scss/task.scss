@@ -5,5 +5,35 @@
     border: 0.5px solid #cec7c7;
     margin: 5px 0;
     width: 90%;
-    color: #948989
+    color: #948989;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.fa-pen {
+    font-size: 12px;
+}
+
+.move {
+    display: flex;
+}
+
+.select {
+    width: 70px;
+    margin-left: 20px;
+
+    &-list {
+        width: 100%;
+        padding: 5px;
+        border-radius: 10px;
+        border: 0.5px solid #cec7c7;
+    }
+
+    &-item {
+        width: 100%;
+        padding: 5px;
+        border-radius: 10px;
+        border: 0.5px solid #cec7c7;
+    }
 }

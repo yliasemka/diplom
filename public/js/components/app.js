@@ -7,10 +7,8 @@ export function createSideBarApp(arrBoard){
     sideBar.classList.add('app-sideBar')
     sideBar.append(createBtnAdd())
     arrBoard.forEach(item => {
-        console.log(item.id, item.name)
         sideBar.append(createBtnBoard(item.id, item.name))
     })
-    console.log(sideBar)
     return sideBar
 }
 
@@ -53,32 +51,45 @@ export function createMainApp(){
     return appMain
 }
 
-export async function createApp(){
+export async function createApp(logInClass, logIn, SingUp){
     ROOT.innerHTML = ""
-    createNavigation()
+    createNavigation(logInClass, logIn, SingUp)
     const arrBoard = await getBoards('http://localhost:3000/boards')
     const appWrapper = document.createElement('div')
     appWrapper.classList.add('app-wrapper')
     const sideBar = createSideBarApp(arrBoard[0])
-    console.log(sideBar)
     appWrapper.append(sideBar)
     appWrapper.append(createMainApp())
     ROOT.append(appWrapper)
     return ROOT
 }
 
-export function createNavigation(){
+export function createNavigation(logInClass = 'app-header-sing', logIn = 'Sing In', SingUp = 'Sing Up'){
     const header = document.createElement('header')
     header.classList.add('app-header')
     const headerApp = document.createElement('div')
     headerApp.classList.add('app-header-text')
     const text = document.createElement('p')
     text.innerText = 'TRELLO'
+    const headerAction = document.createElement('div')
+    headerAction.classList.add('app-header-action')
     const headerLogIn = document.createElement('div')
     headerLogIn.classList.add('app-header-log')
+    const logInText = document.createElement('p')
+    logInText.classList.add('app-header-logIn')
+    logInText.innerText = `${logIn}`
+    const headerLogUp = document.createElement('div')
+    headerLogUp.classList.add(`${logInClass}`)
+    const logUpText = document.createElement('p')
+    logUpText.classList.add('app-header-singUp')
+    logUpText.innerText = `${SingUp}`
+    headerLogIn.append(logInText)
+    headerLogUp.append(logUpText)
     headerApp.append(text)
+    headerAction.append(headerLogIn)
+    headerAction.append(headerLogUp)
     header.append(headerApp)
-    header.append(headerLogIn)
+    header.append(headerAction)
     ROOT.append(header)
     return ROOT
 

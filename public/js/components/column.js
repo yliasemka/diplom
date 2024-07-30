@@ -7,7 +7,6 @@ export async function createColumn (url, id){
     const board = document.querySelector('.board-content')
     columnArr.forEach(item => {
         const taskArr = item.tasks
-        console.log(taskArr)
         const column = document.createElement('div')
         const btn = createBtnAddColumnTask('Добавить задачу')
         btn.classList.add('task-btn')
@@ -20,6 +19,7 @@ export async function createColumn (url, id){
         columnHeaderText.classList.add('column-header-text')
         columnHeaderText.innerText = `${item.name}`
         const actionColumnHeader = document.createElement('span')
+        actionColumnHeader.dataset.id = item.id
         actionColumnHeader.classList.add('column-action')
         actionColumnHeader.innerHTML = '<i class="fa-solid fa-ellipsis"></i>'
         columnHeader.append(columnHeaderText)

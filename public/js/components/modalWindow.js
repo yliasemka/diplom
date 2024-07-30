@@ -1,9 +1,10 @@
+import { getColumn } from "../modules/requests";
+
 let isModalOpen = false
 
 
 export function closeModal(modalClass){
     const modal = document.querySelector(modalClass);
-    console.log(modal)
     isModalOpen = false
     modal.remove(); 
 }
@@ -15,14 +16,14 @@ export function createModalAddBoard(){
         <div class="add-dialog">
             <div class="add-content">
                 <form class="add-form">
-                    <div class="input-fields">
+                    <div class="add-input">
                         <input type="text" class="add-board" placeholder="Заголовок доски" name="name">
                     </div>
                     <div class="window-button">
-                        <button aria-label="Отмена" type="button" aria-disabled="false" class="button-otm">
+                        <button aria-label="Отмена" type="button" aria-disabled="false" class="add-button-otm">
                             <span class="text-otm">Отмена</span>
                         </button>
-                        <input value="Добавить" type="submit" class="button-add">
+                        <input value="Добавить" type="submit" class="add-button">
                     </div>
                 </form>
             </div>
@@ -91,7 +92,7 @@ export function SingUpUser(){
                 </div>
                 <form class="singUp-form">
                     <div class="input-fields">
-                        <input type="text" class="singUp-email" placeholder="Введите ваш имя" name="name">
+                        <input type="text" class="singUp-name" placeholder="Введите ваш имя" name="name">
                     </div>
                     <div class="input-fields">
                         <input type="email" class="singUp-email" placeholder="Введите ваш emael" name="email">
@@ -242,6 +243,68 @@ export function actionColumn(id){
             return addModal
         }
     })
+}
+
+export function taskAction(idTask, neir, idColumn){
+            const addModal = document.createElement('div')
+            addModal.classList.add('actionTask-window')
+            addModal.dataset.id = idTask
+            addModal.dataset.column = idColumn
+            addModal.innerHTML = `
+                <div class="actionTask-dialog">
+                    <div class="actionTask-content">
+                        <div class="actionTask-header">
+                            <p class="actionTask-header-text">Действия с задачей</p>
+                             <span class="actionTask-header-icon">
+                                <i class="fa-solid fa-xmark actionTask-icon"></i>
+                            </span>
+                        </div>
+                        <form class="actionTask-form">
+                            <div class="actionTask-input">
+                                <input type="text" class="actionTask-name" placeholder="${neir}" name="title">
+                            </div>
+                            <div class="actionTask-footer">
+                                <button aria-label="Сохранить" type="submit" aria-disabled="false" class="actionTask-save">
+                                    <span class="actionTask-save-text">Сохранить</span>
+                                </button>
+                                <button aria-label="Удалить колонку" type="submit" aria-disabled="false" class="actionTask-delete">
+                                    <span class="actionTask-delete-text">Удалить задачу</span>
+                                </button>
+                                <div class="move">
+                                    <button aria-label="Переместить в" type="submit" aria-disabled="false" class="actionTask-move">
+                                        <span class="actionTask-move-text">Переметсить в</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>`
+            document.body.append(addModal);
+            isModalOpen = true
+            return addModal
+}
+
+export async function selectColumn(){
+    const id = document.querySelector('.board').dataset.id
+    const arrColumn = await getColumn('http://localhost:3000/boards',id)
+    const arrName = []
+    arrColumn.map(item => arrName.push(item.name))
+    const select = document.createElement('div')
+    select.classList.add('select')
+    const selectTag = document.createElement('select')
+    selectTag.classList.add('select-list')
+    selectTag.name = 'select'
+    select.append(selectTag)
+    arrName.forEach(item => {
+        const opt = document.createElement('option')
+        opt.classList.add('select-item')
+        opt.value = item
+        opt.innerText = item
+        selectTag.append(opt)
+    })
+
+    const btn = document.querySelector('.move')
+    btn.append(select)
 }
 
 export { isModalOpen }

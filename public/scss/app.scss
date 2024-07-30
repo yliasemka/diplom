@@ -6,8 +6,37 @@
 .app {
     &-header {
         display: flex;
+        justify-content: space-between;
         background-color: #a096d898;
         padding: 15px 10px;
+        align-items: center;
+
+        &-action {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+            margin-right: 50px;
+
+        }
+
+        &-logIn,
+        &-singUp {
+            color: #fff;
+            transition: 0.5s;
+            width: 80px;
+            padding: 7px;
+            border-radius: 10px;
+
+            &:hover {
+                border: none;
+                background-color: #fcfaf8;
+                color: #a096d898
+            }
+        }
+
+        &-text {
+            color: #fff;
+        }
     }
 
     &-wrapper {
